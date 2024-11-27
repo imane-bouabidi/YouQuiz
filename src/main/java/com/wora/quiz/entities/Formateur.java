@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -12,7 +14,7 @@ public class Formateur extends User {
     private String specialite;
 
     @OneToMany(mappedBy = "formateur")
-    private List<Test> tests;
+    private List<Quiz> quizzes;
 
     public Formateur() {}
 
