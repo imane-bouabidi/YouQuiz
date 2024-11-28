@@ -1,9 +1,18 @@
 package com.wora.quiz.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Sujet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +24,7 @@ public class Sujet {
     private List<Quiz> tests;
 
     @ManyToOne
-    @JoinColumn(name = "niveau_id")
+    @JoinColumn(name = "level_id")
     private Level level;
 
     @ManyToOne

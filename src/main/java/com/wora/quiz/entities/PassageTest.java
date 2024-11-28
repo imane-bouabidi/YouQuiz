@@ -1,8 +1,16 @@
 package com.wora.quiz.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PassageTest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,11 +22,11 @@ public class PassageTest {
     private int result;
 
     @ManyToOne
-    @JoinColumn(name = "etudiant_id")
+    @JoinColumn(name = "student_id")
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "test_id")
+    @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 }
 
