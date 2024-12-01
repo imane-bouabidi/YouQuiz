@@ -15,14 +15,14 @@ import java.util.List;
 @AllArgsConstructor
 public class Level {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private Long id;
 
     private String description;
-    private int maxPoints;
-    private int minPoints;
+    private Integer pointsMin;
+    private Integer pointsMax;
 
     @OneToMany(mappedBy = "level")
-    private List<Sujet> sujets;
+    private List<Question> questions;
 }
 

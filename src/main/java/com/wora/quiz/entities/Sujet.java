@@ -15,23 +15,18 @@ import java.util.List;
 @AllArgsConstructor
 public class Sujet {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private Long id;
 
-    private String titre;
-
-    @ManyToMany(mappedBy = "sujets")
-    private List<Quiz> tests;
+    private String intitule;
 
     @ManyToOne
-    @JoinColumn(name = "level_id")
-    private Level level;
+    private Sujet parent;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_sujet_id")
-    private Sujet parentSujet;
-
-    @OneToMany(mappedBy = "parentSujet")
+    @OneToMany(mappedBy = "parent")
     private List<Sujet> subSubjects;
+
+    @OneToMany(mappedBy = "sujet")
+    private List<Question> questions;
 }
 

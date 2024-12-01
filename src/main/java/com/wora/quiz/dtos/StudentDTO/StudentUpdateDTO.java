@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentUpdateDTO extends UserDTO {
-    private int id;
     @NotBlank
     private LocalDate dateInscription;
 }

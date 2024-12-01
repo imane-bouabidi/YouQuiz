@@ -23,9 +23,9 @@ public class FormateurController {
         return ResponseEntity.status(201).body(formateur);
     }
 
-    @PutMapping
-    public ResponseEntity<FormateurDTO> saveTrainer(@RequestBody @Valid FormateurUpdateDTO updateDTO) {
-        FormateurDTO formateur = formateurService.update(updateDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<FormateurDTO> updateTrainer(@RequestBody @Valid FormateurUpdateDTO updateDTO, @PathVariable Long id) {
+        FormateurDTO formateur = formateurService.update(updateDTO,id);
         return ResponseEntity.ok(formateur);
     }
 }

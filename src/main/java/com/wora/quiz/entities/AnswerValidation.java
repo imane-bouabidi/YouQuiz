@@ -13,17 +13,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AnswerValidation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private Long id;
 
-    private int point;
+    private Integer pointsObtenus;
 
     @ManyToOne
-    @JoinColumn(name = "reponse_id")
     private Answer answer;
 
     @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+    private Question question;
 }
 

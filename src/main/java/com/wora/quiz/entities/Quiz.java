@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+
 import java.util.List;
 
 @Entity
@@ -16,26 +16,24 @@ import java.util.List;
 @AllArgsConstructor
 public class Quiz {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private Long id;
 
-    @Temporal(TemporalType.DATE)
-    private Date dateDebut;
-
-    @Temporal(TemporalType.DATE)
-    private Date dateFin;
-
-    private int score;
+    private String titre;
+    private Integer scoreReussite;
+    private boolean droitVisualiserReponses;
+    private boolean droitVoirResultats;
+    private Integer nombreChances;
+    private String remarques;
+    private Integer duration;
 
     @ManyToOne
-    @JoinColumn(name = "formateur_id")
     private Formateur formateur;
 
-    @ManyToMany
-    @JoinTable(
-            name = "quiz_sujet",
-            joinColumns = @JoinColumn(name = "quiz_id"),
-            inverseJoinColumns = @JoinColumn(name = "sujet_id"))
-    private List<Sujet> sujets;
+    @OneToMany(mappedBy = "quiz")
+    private List<QuestionTimer> questionTimers;
+
+    @OneToMany(mappedBy = "quiz")
+    private List<PassageTest> passageTests;
 }
 

@@ -26,8 +26,8 @@ public class FormateurServiceImpl implements FormateurService {
     }
 
     @Override
-    public FormateurDTO update(FormateurUpdateDTO updateDTO) {
-        Formateur formateur = formateurRepository.findById(updateDTO.getId())
+    public FormateurDTO update(FormateurUpdateDTO updateDTO, Long id) {
+        Formateur formateur = formateurRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Formateur not found"));
         formateur.setNom(updateDTO.getNom());
         formateur.setAdresse(updateDTO.getAdresse());

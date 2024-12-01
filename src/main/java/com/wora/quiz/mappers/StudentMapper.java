@@ -4,7 +4,6 @@ import com.wora.quiz.dtos.StudentDTO.StudentCreateDTO;
 import com.wora.quiz.dtos.StudentDTO.StudentDTO;
 import com.wora.quiz.dtos.StudentDTO.StudentUpdateDTO;
 import com.wora.quiz.entities.Student;
-import com.wora.quiz.entities.Student;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FormateurDTO extends UserDTO {
-    private int id;
+    private Long id;
     @NotBlank
     private String specialite;
 }

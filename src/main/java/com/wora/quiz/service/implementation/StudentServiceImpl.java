@@ -25,15 +25,31 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentDTO update(StudentUpdateDTO updateDTO) {
-        Student student = studentRepository.findById(updateDTO.getId())
+    public StudentDTO update(StudentUpdateDTO updateDTO, Long id) {
+        Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        if (updateDTO.getNom() != null) {
         student.setNom(updateDTO.getNom());
-        student.setAdresse(updateDTO.getAdresse());
+        }
+        if (updateDTO.getPrenom() != null) {
         student.setPrenom(updateDTO.getPrenom());
-        student.setBirthDate(updateDTO.getBirthDate());
+        }
+        if (updateDTO.getDateInscription() != null) {
         student.setDateInscription(updateDTO.getDateInscription());
+        }
+        if (updateDTO.getAdresse() != null) {
+        student.setAdresse(updateDTO.getAdresse());
+        }
+        if (updateDTO.getBirthDate() != null) {
+        student.setBirthDate(updateDTO.getBirthDate());
+        }
         Student updated = studentRepository.save(student);
         return studentMapper.toDTO(updated);
+    }
+
+    public StudentDTO getStudentById(Long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        return studentMapper.toDTO(student);
     }
 }

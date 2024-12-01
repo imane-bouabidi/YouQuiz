@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -13,12 +15,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Answer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private Long id;
 
-    private String text;
+    private String texte;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id")
-    private Question question;
+    @OneToMany(mappedBy = "answer")
+    private List<AnswerValidation> validations;
 }

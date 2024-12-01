@@ -12,7 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FormateurUpdateDTO extends UserDTO {
-    private Long id;
     @NotBlank
     private String specialite;
 }

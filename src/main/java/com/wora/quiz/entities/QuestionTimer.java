@@ -15,15 +15,14 @@ import java.util.Date;
 @AllArgsConstructor
 public class QuestionTimer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private Long id;
 
-    private boolean temporisee;
+    private Integer temps;
 
-    @Temporal(TemporalType.DATE)
-    private Date duree;
-
-    @OneToOne
-    @JoinColumn(name = "question_id")
+    @ManyToOne
     private Question question;
+
+    @ManyToOne
+    private Quiz quiz;
 }

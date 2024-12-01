@@ -3,7 +3,6 @@ package com.wora.quiz.controller;
 import com.wora.quiz.dtos.StudentDTO.StudentCreateDTO;
 import com.wora.quiz.dtos.StudentDTO.StudentDTO;
 import com.wora.quiz.dtos.StudentDTO.StudentUpdateDTO;
-import com.wora.quiz.service.implementation.StudentServiceImpl;
 import com.wora.quiz.service.interfaces.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +21,9 @@ public class StudentController {
         return ResponseEntity.status(201).body(student);
     }
 
-    @PutMapping
-    public ResponseEntity<StudentDTO> saveTrainer(@RequestBody @Valid StudentUpdateDTO updateDTO) {
-        StudentDTO student = studentService.update(updateDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentDTO> updateTrainer(@RequestBody @Valid StudentUpdateDTO updateDTO, @PathVariable Long id) {
+        StudentDTO student = studentService.update(updateDTO,id);
         return ResponseEntity.ok(student);
     }
 }

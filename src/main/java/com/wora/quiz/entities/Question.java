@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -14,19 +16,26 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private Long id;
 
-    private String text;
-    private boolean temporisee;
-    private int minPoints;
-    private int maxPoints;
-
-    @ManyToOne
-    @JoinColumn(name = "sujet_id")
-    private Sujet sujet;
+    private String texte;
+    private Integer points;
+    private Integer nombreReponses;
+    private Integer nombreReponsesCorrectes;
 
     @Enumerated(EnumType.STRING)
     private TypeQuestion typeQuestion;
-}
 
+    @ManyToOne
+    private Sujet sujet;
+
+    @ManyToOne
+    private Level level;
+
+    @OneToMany(mappedBy = "question")
+    private List<QuestionTimer> questionTimers;
+
+    @OneToMany(mappedBy = "question")
+    private List<AnswerValidation> validations;
+}
