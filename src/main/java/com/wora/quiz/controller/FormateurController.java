@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/formateurs")
 @RequiredArgsConstructor
@@ -27,5 +29,21 @@ public class FormateurController {
     public ResponseEntity<FormateurDTO> updateTrainer(@RequestBody @Valid FormateurUpdateDTO updateDTO, @PathVariable Long id) {
         FormateurDTO formateur = formateurService.update(updateDTO,id);
         return ResponseEntity.ok(formateur);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FormateurDTO> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(formateurService.getById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        formateurService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FormateurDTO>> getAll() {
+        return ResponseEntity.ok(formateurService.getAll());
     }
 }

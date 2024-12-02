@@ -58,7 +58,7 @@ public class PassageTestServiceImpl implements PassageTestService {
         return passageTestMapper.toDTO(updatedPassageTest);
     }
 
-//    @Override
+    @Override
     public void delete(Long id) {
         if (!passageTestRepository.existsById(id)) {
             throw new EntityNotFoundException("PassageTest not found");
@@ -66,14 +66,14 @@ public class PassageTestServiceImpl implements PassageTestService {
         passageTestRepository.deleteById(id);
     }
 
-//    @Override
+    @Override
     public PassageTestDTO getById(Long id) {
         PassageTest passageTest = passageTestRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("PassageTest not found"));
         return passageTestMapper.toDTO(passageTest);
     }
 
-//    @Override
+    @Override
     public List<PassageTestDTO> getAll() {
         return passageTestRepository.findAll().stream()
                 .map(passageTestMapper::toDTO)

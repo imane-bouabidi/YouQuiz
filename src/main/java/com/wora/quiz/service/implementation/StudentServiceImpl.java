@@ -11,6 +11,9 @@ import com.wora.quiz.service.interfaces.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
@@ -47,9 +50,26 @@ public class StudentServiceImpl implements StudentService {
         return studentMapper.toDTO(updated);
     }
 
-    public StudentDTO getStudentById(Long id) {
+    @Override
+    public StudentDTO getById(Long id) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
         return studentMapper.toDTO(student);
+    }
+
+    @Override
+    public List<StudentDTO> getAll() {
+        return studentRepository.findAll()
+                .stream()
+                .map(studentMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (!studentRepository.existsById(id)) {
+            throw new EntityNotFoundException("Student not found");
+        }
+        studentRepository.deleteById(id);
     }
 }

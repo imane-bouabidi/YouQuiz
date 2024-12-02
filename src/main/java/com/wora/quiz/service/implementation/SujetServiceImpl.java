@@ -41,7 +41,7 @@ public class SujetServiceImpl implements SujetService {
         return sujetMapper.toDTO(updatedSujet);
     }
 
-//    @Override
+    @Override
     public void delete(Long id) {
         if (!sujetRepository.existsById(id)) {
             throw new EntityNotFoundException("Sujet not found");
@@ -49,14 +49,14 @@ public class SujetServiceImpl implements SujetService {
         sujetRepository.deleteById(id);
     }
 
-//    @Override
+    @Override
     public SujetDTO getById(Long id) {
         Sujet sujet = sujetRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Sujet not found"));
         return sujetMapper.toDTO(sujet);
     }
 
-//    @Override
+    @Override
     public List<SujetDTO> getAll() {
         return sujetRepository.findAll().stream()
                 .map(sujetMapper::toDTO)

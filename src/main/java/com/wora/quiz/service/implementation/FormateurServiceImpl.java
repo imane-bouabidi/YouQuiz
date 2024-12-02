@@ -11,6 +11,9 @@ import com.wora.quiz.service.interfaces.FormateurService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class FormateurServiceImpl implements FormateurService {
@@ -36,5 +39,27 @@ public class FormateurServiceImpl implements FormateurService {
         formateur.setSpecialite(updateDTO.getSpecialite());
         Formateur updated = formateurRepository.save(formateur);
         return formateurMapper.toDTO(updated);
+    }
+    @Override
+    public FormateurDTO getById(Long id) {
+        Formateur formateur = formateurRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Formateur not found"));
+        return formateurMapper.toDTO(formateur);
+    }
+
+    @Override
+    public List<FormateurDTO> getAll() {
+        return formateurRepository.findAll()
+                .stream()
+                .map(formateurMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (!formateurRepository.existsById(id)) {
+            throw new EntityNotFoundException("Formateur not found");
+        }
+        formateurRepository.deleteById(id);
     }
 }
