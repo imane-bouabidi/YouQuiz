@@ -1,21 +1,27 @@
 package com.wora.quiz.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnswerValidation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    private int point;
+    private Integer pointsObtenus;
 
     @ManyToOne
-    @JoinColumn(name = "reponse_id")
     private Answer answer;
 
     @ManyToOne
-    @JoinColumn(name = "etudiant_id")
-    private Student student;
+    private Question question;
 }
 

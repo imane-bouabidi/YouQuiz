@@ -1,24 +1,41 @@
 package com.wora.quiz.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class PassageTest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    private int score;
-    private int numTentative;
+    private Integer scoreObtenu;
+    private Integer numTentative;
     private String raisonRepassage;
-    private int result;
+    private boolean resultatFinal;
+
+    private LocalDateTime dateDebut;
+    private LocalDateTime dateFin;
 
     @ManyToOne
-    @JoinColumn(name = "etudiant_id")
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "test_id")
     private Quiz quiz;
+
+    @OneToMany
+    private List<Answer> answers;
 }
 

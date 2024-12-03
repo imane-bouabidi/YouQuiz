@@ -1,28 +1,32 @@
 package com.wora.quiz.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Sujet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    private String titre;
-
-    @ManyToMany(mappedBy = "sujets")
-    private List<Quiz> tests;
+    private String intitule;
 
     @ManyToOne
-    @JoinColumn(name = "niveau_id")
-    private Level level;
+    private Sujet parent;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_sujet_id")
-    private Sujet parentSujet;
-
-    @OneToMany(mappedBy = "parentSujet")
+    @OneToMany(mappedBy = "parent")
     private List<Sujet> subSubjects;
+
+    @OneToMany(mappedBy = "sujet")
+    private List<Question> questions;
 }
 

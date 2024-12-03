@@ -1,32 +1,39 @@
 package com.wora.quiz.entities;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Temporal(TemporalType.DATE)
-    private Date dateDebut;
-
-    @Temporal(TemporalType.DATE)
-    private Date dateFin;
-
-    private int score;
+    private String titre;
+    private Integer scoreReussite;
+    private Boolean droitVisualiserReponses;
+    private Boolean droitVoirResultats;
+    private Integer nombreChances;
+    private String remarques;
+    private Integer duration;
 
     @ManyToOne
-    @JoinColumn(name = "formateur_id")
     private Formateur formateur;
 
-    @ManyToMany
-    @JoinTable(
-            name = "test_sujet",
-            joinColumns = @JoinColumn(name = "test_id"),
-            inverseJoinColumns = @JoinColumn(name = "sujet_id"))
-    private List<Sujet> sujets;
+    @OneToMany(mappedBy = "quiz")
+    private List<QuestionTimer> questionTimers;
+
+    @OneToMany(mappedBy = "quiz")
+    private List<PassageTest> passageTests;
 }
 

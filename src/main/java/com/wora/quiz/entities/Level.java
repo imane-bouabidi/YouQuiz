@@ -1,20 +1,28 @@
 package com.wora.quiz.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Level {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String description;
-    private int maxPoints;
-    private int minPoints;
+    private Integer pointsMin;
+    private Integer pointsMax;
 
-    @OneToMany(mappedBy = "niveau")
-    private List<Sujet> sujets;
+    @OneToMany(mappedBy = "level")
+    private List<Question> questions;
 }
 
