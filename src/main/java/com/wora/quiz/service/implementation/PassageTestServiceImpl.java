@@ -29,6 +29,8 @@ public class PassageTestServiceImpl implements PassageTestService {
 
     @Override
     public PassageTestDTO save(CreatePassageTestDTO createDTO) {
+        Quiz quiz = quizRepository.findById(createDTO.getQuizId()).orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
+        Student student = studentRepository.findById(createDTO.getStudentId()).orElseThrow(() -> new EntityNotFoundException("Student not found"));
         PassageTest passageTest = passageTestMapper.toEntity(createDTO);
         PassageTest savedPassageTest = passageTestRepository.save(passageTest);
         return passageTestMapper.toDTO(savedPassageTest);

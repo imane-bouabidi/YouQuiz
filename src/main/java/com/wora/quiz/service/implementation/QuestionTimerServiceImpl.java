@@ -29,7 +29,16 @@ public class QuestionTimerServiceImpl implements QuestionTimerService {
 
     @Override
     public QuestionTimerDTO save(CreateQuestionTimerDTO createDTO) {
+        Question question = questionRepository.findById(createDTO.getQuestionId())
+                .orElseThrow(() -> new EntityNotFoundException("Question not found"));
+
+        Quiz quiz = quizRepository.findById(createDTO.getQuizId())
+                .orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
+
         QuestionTimer questionTimer = questionTimerMapper.toEntity(createDTO);
+
+        questionTimer.setQuestion(question);
+        questionTimer.setQuiz(quiz);
         QuestionTimer savedQuestionTimer = questionTimerRepository.save(questionTimer);
         return questionTimerMapper.toDTO(savedQuestionTimer);
     }

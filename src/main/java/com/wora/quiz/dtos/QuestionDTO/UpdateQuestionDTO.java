@@ -11,7 +11,6 @@ import lombok.Setter;
 @Setter
 public class UpdateQuestionDTO {
     private String texte;
-    private Integer points;
     private Integer nombreReponses;
     private Integer nombreReponsesCorrectes;
     private TypeQuestion typeQuestion;

@@ -16,13 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 public class Quiz {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String titre;
     private Integer scoreReussite;
-    private boolean droitVisualiserReponses;
-    private boolean droitVoirResultats;
+    private Boolean droitVisualiserReponses;
+    private Boolean droitVoirResultats;
     private Integer nombreChances;
     private String remarques;
     private Integer duration;

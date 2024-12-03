@@ -4,10 +4,12 @@ import com.wora.quiz.dtos.QuizDTO.CreateQuizDTO;
 import com.wora.quiz.dtos.QuizDTO.QuizDTO;
 import com.wora.quiz.dtos.QuizDTO.UpdateQuizDTO;
 import com.wora.quiz.entities.Formateur;
+import com.wora.quiz.entities.QuestionTimer;
 import com.wora.quiz.entities.Quiz;
 import com.wora.quiz.exceptions.EntityNotFoundException;
 import com.wora.quiz.mappers.QuizMapper;
 import com.wora.quiz.repositories.FormateurRepository;
+import com.wora.quiz.repositories.QuestionTimerRepository;
 import com.wora.quiz.repositories.QuizRepository;
 import com.wora.quiz.service.interfaces.QuizService;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +24,14 @@ public class QuizServiceImpl implements QuizService {
     private final QuizRepository quizRepository;
     private final QuizMapper quizMapper;
     private final FormateurRepository formateurRepository;
+    private final QuestionTimerRepository questionTimerRepository;
 
     @Override
     public QuizDTO save(CreateQuizDTO createDTO) {
+        Formateur formateur = formateurRepository.findById(createDTO.getFormateurId())
+                .orElseThrow(() -> new EntityNotFoundException("Formateur not found"));
         Quiz quiz = quizMapper.toEntity(createDTO);
+        quiz.setFormateur(formateur);
         quiz = quizRepository.save(quiz);
         return quizMapper.toDTO(quiz);
     }

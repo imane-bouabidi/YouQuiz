@@ -3,14 +3,11 @@ package com.wora.quiz.service.implementation;
 import com.wora.quiz.dtos.QuestionDTO.CreateQuestionDTO;
 import com.wora.quiz.dtos.QuestionDTO.UpdateQuestionDTO;
 import com.wora.quiz.dtos.QuestionDTO.QuestionDTO;
-import com.wora.quiz.entities.Level;
-import com.wora.quiz.entities.Question;
-import com.wora.quiz.entities.Sujet;
+import com.wora.quiz.dtos.QuestionTimerDTO.CreateQuestionTimerDTO;
+import com.wora.quiz.entities.*;
 import com.wora.quiz.exceptions.EntityNotFoundException;
 import com.wora.quiz.mappers.QuestionMapper;
-import com.wora.quiz.repositories.LevelRepository;
-import com.wora.quiz.repositories.QuestionRepository;
-import com.wora.quiz.repositories.SujetRepository;
+import com.wora.quiz.repositories.*;
 import com.wora.quiz.service.interfaces.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,11 +23,26 @@ public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
     private final SujetRepository sujetRepository;
     private final LevelRepository levelRepository;
+    private final QuestionTimerRepository questionTimerRepository;
+    private final QuizRepository quizRepository;
 
     @Override
     public QuestionDTO save(CreateQuestionDTO createDTO) {
+        Sujet sujet = sujetRepository.findById(createDTO.getSujetId())
+                .orElseThrow(() -> new EntityNotFoundException("Sujet not found"));
+
+        Level level = levelRepository.findById(createDTO.getLevelId())
+                .orElseThrow(() -> new EntityNotFoundException("Level not found"));
+
         Question question = questionMapper.toEntity(createDTO);
+        question.setLevel(level);
+        question.setSujet(sujet);
         Question savedQuestion = questionRepository.save(question);
+
+//        Quiz quiz = quizRepository.findById(createDTO.getQuizId())
+//                .orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
+//
+//        QuestionTimer questionTimer = questionTimerRepository.save(new CreateQuestionTimerDTO());
         return questionMapper.toDTO(savedQuestion);
     }
 
@@ -47,7 +59,6 @@ public class QuestionServiceImpl implements QuestionService {
 
 
         question.setTexte(updateDTO.getTexte());
-        question.setPoints(updateDTO.getPoints());
         question.setNombreReponses(updateDTO.getNombreReponses());
         question.setNombreReponsesCorrectes(updateDTO.getNombreReponsesCorrectes());
         question.setTypeQuestion(updateDTO.getTypeQuestion());

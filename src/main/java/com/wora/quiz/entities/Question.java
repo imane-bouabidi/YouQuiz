@@ -16,11 +16,10 @@ import java.util.List;
 @AllArgsConstructor
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String texte;
-    private Integer points;
     private Integer nombreReponses;
     private Integer nombreReponsesCorrectes;
 
@@ -38,4 +37,8 @@ public class Question {
 
     @OneToMany(mappedBy = "question")
     private List<AnswerValidation> validations;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AnswerQuestion> answerQuestions;
+
 }

@@ -11,11 +11,12 @@ import lombok.Setter;
 @Setter
 public class CreateQuestionDTO {
     private String texte;
-    private Integer points;
     private Integer nombreReponses;
     private Integer nombreReponsesCorrectes;
+//    private Integer temps;
     private TypeQuestion typeQuestion;
     private Long sujetId;
     private Long levelId;
+    private Long quizId;
 }
 

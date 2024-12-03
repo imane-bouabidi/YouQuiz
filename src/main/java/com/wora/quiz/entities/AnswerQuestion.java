@@ -1,29 +1,33 @@
 package com.wora.quiz.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Answer {
+public class AnswerQuestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String texte;
+    @NotNull
+    private Boolean correct;
 
-    @OneToMany(mappedBy = "answer")
-    private List<AnswerValidation> validations;
+    @NotNull
+    private Double point;
 
-    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AnswerQuestion> answerQuestions;
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private Question question;
 
+    @ManyToOne
+    @JoinColumn(name = "answer_id")
+    private Answer answer;
 }

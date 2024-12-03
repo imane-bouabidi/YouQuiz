@@ -12,7 +12,6 @@ import lombok.Setter;
 public class QuestionDTO {
     private Long id;
     private String texte;
-    private Integer points;
     private Integer nombreReponses;
     private Integer nombreReponsesCorrectes;
     private TypeQuestion typeQuestion;

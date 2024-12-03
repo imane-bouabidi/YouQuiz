@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 
 @Entity
 @Getter
@@ -15,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class QuestionTimer {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Integer temps;

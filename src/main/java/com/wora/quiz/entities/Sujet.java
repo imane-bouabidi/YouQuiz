@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Sujet {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String intitule;
