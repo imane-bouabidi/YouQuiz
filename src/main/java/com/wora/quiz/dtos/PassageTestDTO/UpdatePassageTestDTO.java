@@ -14,10 +14,10 @@ import lombok.Setter;
 public class UpdatePassageTestDTO {
     private Long studentId;
     private Long quizId;
-    private Integer scoreObtenu;
-    private Integer numTentative;
+    private Double scoreObtenu;
+    private Double numTentative;
     private String raisonRepassage;
-    private Boolean resultatFinal;
+    private Double resultatFinal;
     private LocalDateTime dateDebut;
     private LocalDateTime dateFin;
 }

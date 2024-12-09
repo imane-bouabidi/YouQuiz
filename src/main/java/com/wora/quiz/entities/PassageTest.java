@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,10 +20,10 @@ public class PassageTest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer scoreObtenu;
-    private Integer numTentative;
+    private Double scoreObtenu;
+    private Double numTentative;
     private String raisonRepassage;
-    private boolean resultatFinal;
+    private Double resultatFinal;
 
     private LocalDateTime dateDebut;
     private LocalDateTime dateFin;
@@ -35,7 +34,7 @@ public class PassageTest {
     @ManyToOne
     private Quiz quiz;
 
-    @OneToMany
-    private List<Answer> answers;
+    @OneToMany(mappedBy = "passageTest")
+    private List<AnswerValidation> answerValidations;
 }
 

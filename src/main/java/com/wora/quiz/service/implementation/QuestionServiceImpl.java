@@ -5,7 +5,9 @@ import com.wora.quiz.dtos.QuestionDTO.UpdateQuestionDTO;
 import com.wora.quiz.dtos.QuestionDTO.QuestionDTO;
 import com.wora.quiz.dtos.QuestionTimerDTO.CreateQuestionTimerDTO;
 import com.wora.quiz.entities.*;
+import com.wora.quiz.entities.enums.TypeQuestion;
 import com.wora.quiz.exceptions.EntityNotFoundException;
+import com.wora.quiz.exceptions.NbrReponsesCorrectes;
 import com.wora.quiz.mappers.QuestionMapper;
 import com.wora.quiz.repositories.*;
 import com.wora.quiz.service.interfaces.QuestionService;
@@ -33,7 +35,9 @@ public class QuestionServiceImpl implements QuestionService {
 
         Level level = levelRepository.findById(createDTO.getLevelId())
                 .orElseThrow(() -> new EntityNotFoundException("Level not found"));
-
+        if (TypeQuestion.UNIQUE.equals(createDTO.getTypeQuestion()) && createDTO.getNombreReponsesCorrectes() > 1) {
+            throw new NbrReponsesCorrectes("Nombre de reponses correctes ne match pas le type de question");
+        }
         Question question = questionMapper.toEntity(createDTO);
         question.setLevel(level);
         question.setSujet(sujet);

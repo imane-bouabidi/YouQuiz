@@ -11,6 +11,6 @@ import lombok.Setter;
 public class CreateAnswerValidationDTO {
     private Long answerId;
     private Long questionId;
-    private Integer pointsObtenus;
+    private Long passageTestId;
 }
 

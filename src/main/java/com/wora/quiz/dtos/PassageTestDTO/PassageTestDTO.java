@@ -18,7 +18,7 @@ public class PassageTestDTO {
     private Integer scoreObtenu;
     private Integer numTentative;
     private String raisonRepassage;
-    private boolean resultatFinal;
+    private Double resultatFinal;
     private LocalDateTime dateDebut;
     private LocalDateTime dateFin;
     private List<Long> answerIds;

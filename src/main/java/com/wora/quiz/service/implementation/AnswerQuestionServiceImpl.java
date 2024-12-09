@@ -3,11 +3,10 @@ package com.wora.quiz.service.implementation;
 import com.wora.quiz.dtos.AnswerQuestionDTO.AnswerQuestionDTO;
 import com.wora.quiz.dtos.AnswerQuestionDTO.CreateAnswerQuestionDTO;
 import com.wora.quiz.dtos.AnswerQuestionDTO.UpdateAnswerQuestionDTO;
-import com.wora.quiz.dtos.AnswerValidationDTO.AnswerValidationDTO;
-import com.wora.quiz.dtos.AnswerValidationDTO.UpdateAnswerValidationDTO;
 import com.wora.quiz.entities.Answer;
 import com.wora.quiz.entities.AnswerQuestion;
 import com.wora.quiz.entities.Question;
+import com.wora.quiz.exceptions.NbrReponsesCorrectes;
 import com.wora.quiz.mappers.AnswerQuestionMapper;
 import com.wora.quiz.repositories.AnswerQuestionRepository;
 import com.wora.quiz.repositories.AnswerRepository;
@@ -31,20 +30,55 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
     @Override
     public AnswerQuestionDTO save(CreateAnswerQuestionDTO createDTO) {
         Question question = questionRepository.findById(createDTO.getQuestionId())
-                .orElseThrow(() -> new EntityNotFoundException("Question not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Question not found with id " + createDTO.getQuestionId()));
 
         Answer answer = answerRepository.findById(createDTO.getAnswerId())
-                .orElseThrow(() -> new EntityNotFoundException("Answer not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Answer not found with id " + createDTO.getAnswerId()));
 
-        AnswerQuestion answerQuestion = new AnswerQuestion();
-        answerQuestion.setQuestion(question);
-        answerQuestion.setAnswer(answer);
-        answerQuestion.setCorrect(createDTO.getCorrect());
-        answerQuestion.setPoint(createDTO.getPoint());
+        double minPoint = question.getLevel().getPointsMin();
+        double maxPoint = question.getLevel().getPointsMax();
 
-        AnswerQuestion saved = answerQuestionRepository.save(answerQuestion);
-        return answerQuestionMapper.toDTO(saved);
+        int maxWrongAnswers = question.getNombreReponses() - question.getNombreReponsesCorrectes();
+
+        int countWrongAnswers = (int) question.getAnswerQuestions().stream()
+                .filter(answerQuestion -> answerQuestion.getPoint() == 0)
+                .count();
+
+        if (createDTO.getPoint() == 0) {
+            if (countWrongAnswers >= maxWrongAnswers) {
+                throw new NbrReponsesCorrectes("le max des reponses incorrectes !");
+            }
+            AnswerQuestion savedAnswerQuestion = answerQuestionMapper.toEntity(createDTO);
+            savedAnswerQuestion.setQuestion(question);
+            savedAnswerQuestion.setAnswer(answer);
+            AnswerQuestion created = answerQuestionRepository.save(savedAnswerQuestion);
+            return answerQuestionMapper.toDTO(created);
+        }
+
+        if (createDTO.getPoint() <= minPoint || createDTO.getPoint() >= maxPoint) {
+            throw new NbrReponsesCorrectes("il faut respecter le min et max des points!");
+        }
+
+        int totalAnswers = question.getAnswerQuestions().size();
+        if (totalAnswers >= question.getNombreReponses()) {
+            throw new NbrReponsesCorrectes("Vous avez depassé le nombre des reponses");
+        }
+
+        int countCorrectAnswers = (int) question.getAnswerQuestions().stream()
+                .filter(answerQuestion -> answerQuestion.getPoint() > 0)
+                .count();
+
+        if (countCorrectAnswers >= question.getNombreReponsesCorrectes()) {
+            throw new NbrReponsesCorrectes("Nombre de reponses correcte est depassé !");
+        }
+
+        AnswerQuestion savedAnswerQuestion = answerQuestionMapper.toEntity(createDTO);
+        savedAnswerQuestion.setQuestion(question);
+        savedAnswerQuestion.setAnswer(answer);
+
+        return answerQuestionMapper.toDTO(answerQuestionRepository.save(savedAnswerQuestion));
     }
+
 
     @Override
     public AnswerQuestionDTO update(UpdateAnswerQuestionDTO updateDTO, Long id) {
@@ -63,11 +97,11 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
     public  void delete(Long id) {
     }
 
-        public List<AnswerQuestionDTO> getAnswersForQuestion(Long questionId) {
-        List<AnswerQuestion> answers = answerQuestionRepository.findByQuestionId(questionId);
-        return answers.stream()
-                .map(answerQuestionMapper::toDTO)
-                .collect(Collectors.toList());
+    public List<AnswerQuestionDTO> getAnswersForQuestion(Long questionId) {
+    List<AnswerQuestion> answers = answerQuestionRepository.findByQuestionId(questionId);
+    return answers.stream()
+            .map(answerQuestionMapper::toDTO)
+            .collect(Collectors.toList());
     }
 
     public List<AnswerQuestionDTO> getQuestionsForAnswer(Long answerId) {
@@ -84,12 +118,4 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
         answerQuestionRepository.deleteByAnswerIdAndQuestionId(questionId,answerId);
     }
 
-//    public List<AnswerQuestionDTO> findCorrectAnswersForQuestion(Long questionId) {
-//        List<AnswerQuestion> correctAnswers = answerQuestionRepository.findByQuestionId(questionId).stream()
-//                .filter(AnswerQuestion::Correct)
-//                .collect(Collectors.toList());
-//        return correctAnswers.stream()
-//                .map(answerQuestionMapper::toDTO)
-//                .collect(Collectors.toList());
-//    }
 }

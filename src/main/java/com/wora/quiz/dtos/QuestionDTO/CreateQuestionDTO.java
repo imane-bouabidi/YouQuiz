@@ -13,7 +13,6 @@ public class CreateQuestionDTO {
     private String texte;
     private Integer nombreReponses;
     private Integer nombreReponsesCorrectes;
-//    private Integer temps;
     private TypeQuestion typeQuestion;
     private Long sujetId;
     private Long levelId;

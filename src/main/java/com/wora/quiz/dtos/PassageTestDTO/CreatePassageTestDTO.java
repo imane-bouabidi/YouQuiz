@@ -14,10 +14,7 @@ import lombok.Setter;
 public class CreatePassageTestDTO {
     private Long studentId;
     private Long quizId;
-    private Integer scoreObtenu;
-    private Integer numTentative;
     private String raisonRepassage;
-    private boolean resultatFinal;
     private LocalDateTime dateDebut;
     private LocalDateTime dateFin;
     private List<Long> answerIds;

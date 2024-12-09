@@ -16,12 +16,16 @@ public class AnswerValidation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer pointsObtenus;
+    private Double pointsObtenus;
 
     @ManyToOne
     private Answer answer;
 
     @ManyToOne
     private Question question;
+
+    @ManyToOne
+    @JoinColumn(name = "passage_test_id")
+    private PassageTest passageTest;
 }
 
